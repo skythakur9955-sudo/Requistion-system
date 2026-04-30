@@ -28,7 +28,7 @@ const generateToken = (user) => {
 router.post('/register', [
   body('name').notEmpty().withMessage('Name is required'),
   body('employeeId').notEmpty().withMessage('Employee ID is required'),
-  body('designation').notEmpty().withMessage('Designation is required'),
+  // body('designation').notEmpty().withMessage('Designation is required'),
   body('email').isEmail().withMessage('Please enter valid email'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
   body('role').optional().isIn(['user', 'admin'])
@@ -39,7 +39,7 @@ router.post('/register', [
   }
 
   try {
-    const { name, employeeId, designation, email, password, role } = req.body;
+    const { name, employeeId,  email, password, role } = req.body;
 
     const userExists = await User.findOne({
       where: {
@@ -57,7 +57,7 @@ router.post('/register', [
     const user = await User.create({
       name,
       employeeId,
-      designation,
+      
       email,
       password,
       role: role || 'user'
@@ -74,7 +74,7 @@ router.post('/register', [
         id: user.id,
         name: user.name,
         employeeId: user.employeeId,
-        designation: user.designation,
+       
         email: user.email,
         role: user.role
       }

@@ -23,13 +23,13 @@ const sequelize = new Sequelize(
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('MySQL Connected successfully');
+  //  console.log('MySQL Connected successfully');
     
     // Sync all models
     await sequelize.sync({ alter: false });
-    console.log('Database synced');
+    // console.log('Database synced');
   } catch (error) {
-    console.error('Unable to connect to MySQL:', error);
+  //  console.error('Unable to connect to MySQL:', error);
     process.exit(1);
   }
 };

@@ -6,7 +6,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
     employeeId: '',
-    designation: '',
+   
     email: '',
     password: '',
     confirmPassword: ''
@@ -35,7 +35,7 @@ const Register = () => {
     
     if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.employeeId) newErrors.employeeId = 'Employee ID is required';
-    if (!formData.designation) newErrors.designation = 'Designation is required';
+   
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -109,18 +109,7 @@ const Register = () => {
             {errors.employeeId && <p className="text-red-500 text-sm mt-1">{errors.employeeId}</p>}
           </div>
           
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Designation</label>
-            <input
-              type="text"
-              name="designation"
-              value={formData.designation}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter your designation"
-            />
-            {errors.designation && <p className="text-red-500 text-sm mt-1">{errors.designation}</p>}
-          </div>
+          
           
           <div>
             <label className="block text-gray-700 font-medium mb-2">Email</label>

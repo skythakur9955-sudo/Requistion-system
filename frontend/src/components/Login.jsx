@@ -21,14 +21,14 @@ const Login = () => {
     if (user && !hasNavigated.current) {
       hasNavigated.current = true;
 
-      console.log("🔄 User logged in, role:", user.role);
+     // console.log("🔄 User logged in, role:", user.role);
 
       // Role-based navigation
       if (user.role === "admin") {
         console.log("✅ Redirecting to ADMIN panel");
         navigate("/admin", { replace: true });
       } else {
-        console.log("✅ Redirecting to USER dashboard");
+      //  console.log("✅ Redirecting to USER dashboard");
         navigate("/dashboard", { replace: true });
       }
     }
@@ -47,7 +47,7 @@ const Login = () => {
       const result = await login(email, password);
 
       if (result.success) {
-        console.log("✅ Login successful, role:", result.user.role);
+       // console.log("✅ Login successful, role:", result.user.role);
         toast.success("Login successful!");
         // Navigation handled by useEffect
       } else {
