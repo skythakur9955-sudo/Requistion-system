@@ -9,6 +9,7 @@ import nml from "./img/ntpc.webp";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -42,9 +43,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      console.log("Attempting login with:", email);
+      console.log("Attempting login with:", identifier);
 
-      const result = await login(email, password);
+     
+      const result = await login(identifier, password);
 
       if (result.success) {
        // console.log("✅ Login successful, role:", result.user.role);
@@ -110,18 +112,19 @@ const Login = () => {
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label className="block text-gray-700 font-medium text-sm sm:text-base">
-                    Email Address
+                    Email Address or Employee ID
                   </label>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-[#007DC5] transition-colors duration-200" />
                     </div>
                     <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      type="text"
+                      value={identifier}
+                      onChange={(e) => setIdentifier(e.target.value)}
+                      placeholder="Email or Employee ID"
                       className="w-full pl-10 pr-3 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007DC5] focus:border-transparent transition-all duration-200 text-sm sm:text-base disabled:bg-gray-50 disabled:text-gray-500"
-                      placeholder="Enter your email"
+                    
                       required
                       disabled={loading}
                     />
@@ -161,23 +164,7 @@ const Login = () => {
                 </div>
 
                 {/* Remember Me & Forgot Password */}
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 text-[#007DC5] border-gray-300 rounded focus:ring-[#007DC5] focus:ring-offset-0 cursor-pointer"
-                    />
-                    <span className="ml-2 text-sm text-gray-600 group-hover:text-gray-800 transition-colors duration-200">
-                      Remember me
-                    </span>
-                  </label>
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm text-[#007DC5] hover:text-[#005a8c] font-medium transition-colors duration-200"
-                  >
-                    Forgot Password?
-                  </Link>
-                </div>
+                
 
                 {/* Login Button */}
                 <button
@@ -215,7 +202,7 @@ const Login = () => {
               {/* Footer */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="text-center text-xs text-gray-500">
-                  © 2024 NTPC Limited. All rights reserved.
+                  © {new Date().getFullYear()} NTPC Limited. All rights reserved.
                 </p>
               </div>
             </div>
