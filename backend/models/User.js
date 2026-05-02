@@ -21,10 +21,10 @@ const User = sequelize.define('User', {
     unique: true,
     field: 'employee_id'
   },
-  designation: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
+  // designation: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false
+  // },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -38,7 +38,7 @@ const User = sequelize.define('User', {
     allowNull: false
   },
   role: {
-    type: DataTypes.ENUM('user', 'admin'),
+    type: DataTypes.ENUM('user', 'admin', 'hod'),
     defaultValue: 'user'
   },
   createdAt: {
