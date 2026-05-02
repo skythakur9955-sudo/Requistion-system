@@ -1,5 +1,9 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import ntpc from "./img/nml-logo.png";
+import nml from "./img/ntpc.webp";
+
+
 
 export const generateRequisitionPDF = async (requisition, hodSignature = null) => {
   const doc = new jsPDF('p', 'mm', 'a4');
@@ -7,9 +11,11 @@ export const generateRequisitionPDF = async (requisition, hodSignature = null) =
   doc.setDrawColor(0, 0, 0);
   doc.rect(10, 10, 190, 277);
   
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold');
-  doc.text('NTPC Limited', 105, 25, { align: 'center' });
+// Left logo (NTPC)
+doc.addImage(nml, 'WEBP', 15, 20, 20, 20);
+
+// Right logo (NML)
+doc.addImage(ntpc, 'PNG', 170, 20, 20, 20);
   
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
