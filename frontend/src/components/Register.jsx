@@ -6,11 +6,12 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
     employeeId: '',
-    designation: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'user' // ✅ default role
   });
+
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -21,7 +22,7 @@ const Register = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
-    // Clear error for this field
+
     if (errors[e.target.name]) {
       setErrors({
         ...errors,
@@ -32,150 +33,142 @@ const Register = () => {
 
   const validate = () => {
     const newErrors = {};
-    
+
     if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.employeeId) newErrors.employeeId = 'Employee ID is required';
-    if (!formData.designation) newErrors.designation = 'Designation is required';
+
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = 'Invalid email';
     }
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Minimum 6 characters required';
     }
+
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    
+
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    
+
     setLoading(true);
-    
+
     const { confirmPassword, ...userData } = formData;
+
     const result = await register(userData);
-    
+
     if (result.success) {
       navigate('/login');
     }
-    
+
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
-          <p className="text-gray-600 mt-2">Register for Vehicle Requisition</p>
-        </div>
-        
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg">
+
+        <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter your full name"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Employee ID</label>
-            <input
-              type="text"
-              name="employeeId"
-              value={formData.employeeId}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter employee ID"
-            />
-            {errors.employeeId && <p className="text-red-500 text-sm mt-1">{errors.employeeId}</p>}
-          </div>
-          
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Designation</label>
-            <input
-              type="text"
-              name="designation"
-              value={formData.designation}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter your designation"
-            />
-            {errors.designation && <p className="text-red-500 text-sm mt-1">{errors.designation}</p>}
-          </div>
-          
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter your email"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-          
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Create password (min 6 characters)"
-            />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-          </div>
-          
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Confirm your password"
-            />
-            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
-          </div>
-          
+
+          {/* Name */}
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+
+          {/* Employee ID */}
+          <input
+            type="text"
+            name="employeeId"
+            placeholder="Employee ID"
+            value={formData.employeeId}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.employeeId && <p className="text-red-500 text-sm">{errors.employeeId}</p>}
+
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+
+          {/* Password */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+
+          {/* Confirm Password */}
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+
+          {/* 🔥 ROLE DROPDOWN */}
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          >
+            <option value="user">Employee</option>
+            <option value="hod">HOD</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-primary disabled:opacity-50"
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
           >
-            {loading ? 'Creating Account...' : 'Register'}
+            {loading ? 'Creating...' : 'Register'}
           </button>
+
         </form>
-        
-        <p className="text-center text-gray-600 mt-6">
-          Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-            Login here
-          </Link>
+
+        <p className="text-center mt-4 text-sm">
+          Already have account?{' '}
+          <Link to="/login" className="text-blue-600">Login</Link>
         </p>
+
       </div>
     </div>
   );

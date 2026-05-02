@@ -64,10 +64,10 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, [token]);
 
-  const login = async (email, password) => {
+  const login = async (identifier, password) => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
+        identifier,
         password
       });
       
