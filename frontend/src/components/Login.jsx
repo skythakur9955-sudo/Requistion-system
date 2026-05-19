@@ -187,7 +187,7 @@ const Login = () => {
               </form>
 
               {/* Register Link */}
-              <div className="mt-6 text-center">
+              {/* <div className="mt-6 text-center">
                 <p className="text-gray-600 text-sm sm:text-base">
                   Don't have an account?{" "}
                   <Link
@@ -197,7 +197,7 @@ const Login = () => {
                     Register here
                   </Link>
                 </p>
-              </div>
+              </div> */}
 
               {/* Footer */}
               <div className="mt-6 pt-6 border-t border-gray-200">

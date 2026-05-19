@@ -149,7 +149,7 @@ const Register = () => {
             className="w-full border p-2 rounded"
           >
             <option value="user">Employee</option>
-            <option value="hod">HOD</option>
+            {/* <option value="hod">HOD</option> */}
             <option value="admin">Admin</option>
           </select>
 

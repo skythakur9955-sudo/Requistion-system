@@ -1,6 +1,6 @@
 // src/components/AdminPanel.jsx
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
@@ -63,6 +63,8 @@ const AdminPanel = () => {
     }
   }, [user, navigate]);
 
+ // console.log(user);
+  
   // Get token from localStorage
   const getAuthHeader = () => {
     const token = localStorage.getItem("token");
@@ -262,7 +264,7 @@ const AdminPanel = () => {
                   NTPC Limited
                 </h1>
                 <p className="text-blue-100 text-xs lg:text-sm">
-                  Admin Panel - HOD Dashboard
+                  HOD Dashboard
                 </p>
               </div>
             </div>
@@ -275,9 +277,10 @@ const AdminPanel = () => {
                 <p className="text-white font-medium text-sm">{user?.name}</p>
                 <p className="text-blue-100 text-xs flex items-center gap-1">
                   <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
-                  HOD Admin
+                  HOD 
                 </p>
               </div>
+              
               <div className="relative">
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -340,6 +343,12 @@ const AdminPanel = () => {
                 Manage and review vehicle requisitions from your dashboard.
               </p>
             </div>
+            <Link
+                    to="/register"
+                    className="text-[#f3f8fb] hover:text-[#08fa3c] font-extrabold transition-colors duration-200"
+                  >
+                    Register here
+                  </Link>
             <div className="flex gap-3"></div>
           </div>
         </div>
