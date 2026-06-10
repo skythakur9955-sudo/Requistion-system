@@ -307,7 +307,11 @@ const UserPanel = () => {
               <div className="hidden sm:block text-right">
                 <p className="text-white font-medium text-sm">{user?.name}</p>
                 <p className="text-blue-100 text-xs">{user?.designation}</p>
-              </div>
+
+              {user?.department && (
+                <p className="text-blue-100 text-xs mt-0.5">Dept: {user?.department}</p>
+              )}
+               </div>
               <div className="relative">
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -852,17 +856,17 @@ const UserPanel = () => {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>Email: support@ntpc.co.in</li>
-                <li>Phone: +91 123 456 7890</li>
-                <li>Address: NTPC Bhawan, SCOPE Complex</li>
-                <li>New Delhi - 110003</li>
+                <li>Email: tinkukumar9124@gmail.com</li>
+                <li>Phone: +91 6201972391</li>
+                <li>Address: NTPC , Sikri Site Office</li>
+                <li>Barkagon - 825311</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
             <p>
-              © 2024 NTPC Limited. All rights reserved. | Terms of Service |
+              © {new Date().getFullYear()} NTPC Limited. All rights reserved. | Terms of Service |
               Privacy Policy
             </p>
           </div>

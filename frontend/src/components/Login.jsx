@@ -18,22 +18,23 @@ const Login = () => {
   const hasNavigated = useRef(false);
 
   // Redirect based on user role
-  useEffect(() => {
-    if (user && !hasNavigated.current) {
-      hasNavigated.current = true;
-
-     // console.log("🔄 User logged in, role:", user.role);
-
-      // Role-based navigation
-      if (user.role === "admin") {
-        console.log("✅ Redirecting to ADMIN panel");
-        navigate("/admin", { replace: true });
-      } else {
-      //  console.log("✅ Redirecting to USER dashboard");
-        navigate("/dashboard", { replace: true });
-      }
+    useEffect(() => {
+     if (user && !hasNavigated.current) {
+    hasNavigated.current = true;
+    
+    // Role-based navigation
+    if (user.role === "admin") {
+      console.log("✅ Redirecting to ADMIN panel");
+      navigate("/admin", { replace: true });
+    } else if (user.role === "hod") {
+      console.log("✅ Redirecting to HOD panel");
+      navigate("/hod", { replace: true });
+    } else {
+      console.log("✅ Redirecting to USER dashboard");
+      navigate("/dashboard", { replace: true });
     }
-  }, [user, navigate]);
+  }
+}, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
