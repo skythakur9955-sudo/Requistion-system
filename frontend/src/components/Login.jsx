@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { Mail, Lock, LogIn, Eye, EyeOff } from "lucide-react";
-import ntpc from "./img/nml-logo.png";
-import nml from "./img/ntpc.webp";
+import ntpc from "./img/nml.png";
+import nml from "./img/nlogo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,14 +22,14 @@ const Login = () => {
     if (user && !hasNavigated.current) {
       hasNavigated.current = true;
 
-     // console.log("🔄 User logged in, role:", user.role);
+      // console.log("🔄 User logged in, role:", user.role);
 
       // Role-based navigation
       if (user.role === "admin") {
         console.log("✅ Redirecting to ADMIN panel");
         navigate("/admin", { replace: true });
       } else {
-      //  console.log("✅ Redirecting to USER dashboard");
+        //  console.log("✅ Redirecting to USER dashboard");
         navigate("/dashboard", { replace: true });
       }
     }
@@ -45,11 +45,10 @@ const Login = () => {
     try {
       console.log("Attempting login with:", identifier);
 
-     
       const result = await login(identifier, password);
 
       if (result.success) {
-       // console.log("✅ Login successful, role:", result.user.role);
+        // console.log("✅ Login successful, role:", result.user.role);
         toast.success("Login successful!");
         // Navigation handled by useEffect
       } else {
@@ -82,19 +81,31 @@ const Login = () => {
                 {/* NTPC Logo Placeholder */}
                 {/* Replace the placeholder divs with actual images */}
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-300 p-2">
-                  <img
-                    src={ntpc}
-                    alt="NTPC Logo"
-                    className="w-full h-full object-contain"
-                  />
+                  <a
+                    href="https://www.nml.co.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={ntpc}
+                      alt="NTPC Logo"
+                      className="w-full h-full object-contain"
+                    />
+                  </a>
                 </div>
 
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-300 p-2">
-                  <img
-                    src={nml}
-                    alt="NML Logo"
-                    className="w-full h-full object-contain"
-                  />
+                  <a
+                    href="https://ntpc.co.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={nml}
+                      alt="NML Logo"
+                      className="w-full h-full object-contain"
+                    />
+                  </a>
                 </div>
               </div>
 
@@ -124,13 +135,11 @@ const Login = () => {
                       onChange={(e) => setIdentifier(e.target.value)}
                       placeholder="Email or Employee ID"
                       className="w-full pl-10 pr-3 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007DC5] focus:border-transparent transition-all duration-200 text-sm sm:text-base disabled:bg-gray-50 disabled:text-gray-500"
-                    
                       required
                       disabled={loading}
                     />
                   </div>
                 </div>
-
                 {/* Password Field */}
                 <div className="space-y-2">
                   <label className="block text-gray-700 font-medium text-sm sm:text-base">
@@ -162,10 +171,7 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
-
                 {/* Remember Me & Forgot Password */}
-                
-
                 {/* Login Button */}
                 <button
                   type="submit"
@@ -184,6 +190,15 @@ const Login = () => {
                     </>
                   )}
                 </button>
+
+                <div className="text-center mt-4">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-blue-600 hover:text-blue-700"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
               </form>
 
               {/* Register Link */}
@@ -202,7 +217,8 @@ const Login = () => {
               {/* Footer */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="text-center text-xs text-gray-500">
-                  © {new Date().getFullYear()} NTPC Limited. All rights reserved.
+                  © {new Date().getFullYear()} NTPC Limited. All rights
+                  reserved.
                 </p>
               </div>
             </div>

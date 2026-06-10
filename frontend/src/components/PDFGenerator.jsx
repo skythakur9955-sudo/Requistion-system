@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import ntpc from "./img/nml-logo.png";
-import nml from "./img/ntpc.webp";
+import nml from "./img/nml-logo.png";
+import ntpc from "./img/nlogo.png";
 
 
 
@@ -12,10 +12,10 @@ export const generateRequisitionPDF = async (requisition, hodSignature = null) =
   doc.rect(10, 10, 190, 277);
   
 // Left logo (NTPC)
-doc.addImage(nml, 'WEBP', 15, 20, 20, 20);
+doc.addImage(ntpc, 'PNG', 15, 20, 23, 23);
 
 // Right logo (NML)
-doc.addImage(ntpc, 'PNG', 170, 20, 20, 20);
+doc.addImage(nml, 'PNG', 170, 20, 24, 15);
   
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');

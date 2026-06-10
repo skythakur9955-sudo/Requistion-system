@@ -4,6 +4,10 @@ const dotenv = require('dotenv');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const { connectDB } = require('./config/database');
+// Add this with other route imports
+const passwordResetRoutes = require('./routes/passwordResetRoutes');
+
+
 
 // Load env vars
 dotenv.config();
@@ -13,6 +17,9 @@ const authRoutes = require('./routes/authRoutes');
 const requisitionRoutes = require('./routes/requisitionRoutes');
 
 const app = express();
+
+
+
 
 // Body parser
 app.use(express.json());
@@ -34,6 +41,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/requisitions', requisitionRoutes);
+// Add this with other route mounts
+app.use('/api/password-reset', passwordResetRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -47,12 +56,27 @@ app.use((err, req, res, next) => {
 
 // Connect to MySQL and start server
 const startServer = async () => {
-  await connectDB();
-  
-  const PORT = process.env.PORT || 5000;
-  const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  try {
+    console.log("Starting server...");
+    
+    await connectDB();
+    console.log("Database connected");
+
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("SERVER START ERROR:");
+    console.error(error);
+  }
 };
 
+
+
+
 startServer();
+
+

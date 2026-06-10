@@ -49,7 +49,8 @@ export const AuthProvider = ({ children }) => {
           email: decoded.email,
           role: decoded.role, // Make sure role is included in token
           employeeId: decoded.employeeId,
-          designation: decoded.designation
+          designation: decoded.designation,
+          department : decoded.department
         });
       } catch (error) {
         console.error('Error loading user:', error);
