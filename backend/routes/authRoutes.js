@@ -15,6 +15,7 @@ const generateToken = (user) => {
       role: user.role,
       name: user.name,
       employeeId: user.employeeId,
+      department : user.department,
       designation: user.designation
     }, 
     process.env.JWT_SECRET, 
@@ -133,15 +134,16 @@ router.post(
       console.log("✅ Login successful:", identifier, "Role:", user.role);
 
       res.json({
-        success: true,
-        token,
-        user: {
-          id: user.id,
-          name: user.name,
-          employeeId: user.employeeId,
-          designation: user.designation,
-          email: user.email,
-          role: user.role,
+       success: true,
+  token,
+  user: {
+    id: user.id,
+    name: user.name,
+    employeeId: user.employeeId,
+    designation: user.designation,
+    email: user.email,
+    role: user.role,
+     department: user.department, // ADD THIS LINE
         },
       });
     } catch (error) {

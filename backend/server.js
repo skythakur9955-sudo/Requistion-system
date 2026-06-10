@@ -11,6 +11,7 @@ dotenv.config();
 // Route files
 const authRoutes = require('./routes/authRoutes');
 const requisitionRoutes = require('./routes/requisitionRoutes');
+const adminRoutes = require('./routes/adminRoutes'); // ADD THIS LINE
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/requisitions', requisitionRoutes);
+app.use('/api/admin', adminRoutes); // ADD THIS LINE
 
 // Error handler
 app.use((err, req, res, next) => {

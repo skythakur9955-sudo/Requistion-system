@@ -89,14 +89,25 @@ router.get('/my-requisitions', protect, authorize('user'), async (req, res) => {
   }
 });
 
-// @route GET /api/requisitions/all (Admin only)
-router.get('/all', protect, authorize('admin'), async (req, res) => {
+// @route GET /api/requisitions/department (HOD view only own department)
+router.get('/department', protect, authorize('hod'), async (req, res) => {
   try {
+    // Get all users from HOD's department
+    const departmentUsers = await User.findAll({
+      where: { department: req.user.department },
+      attributes: ['id']
+    });
+    
+    const userIds = departmentUsers.map(user => user.id);
+    
     const requisitions = await Requisition.findAll({
+      where: { 
+        createdBy: userIds
+      },
       include: [{
         model: User,
         as: 'user',
-        attributes: ['id', 'name', 'email', 'employeeId']
+        attributes: ['id', 'name', 'email', 'employeeId', 'department']
       }],
       order: [['createdAt', 'DESC']]
     });
@@ -111,15 +122,54 @@ router.get('/all', protect, authorize('admin'), async (req, res) => {
   }
 });
 
-// @route PUT /api/requisitions/:id/approve (Admin only)
-router.put('/:id/approve', protect, authorize('admin'), upload.single('hodSignature'), [
+// @route GET /api/requisitions/all (Admin only)
+router.get('/all', protect, authorize('admin'), async (req, res) => {
+  try {
+    const requisitions = await Requisition.findAll({
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['id', 'name', 'email', 'employeeId', 'department']
+      }],
+      order: [['createdAt', 'DESC']]
+    });
+    
+    res.json({
+      success: true,
+      data: requisitions
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// @route PUT /api/requisitions/:id/approve (HOD can approve department requests)
+router.put('/:id/approve', protect, authorize('admin', 'hod'), upload.single('hodSignature'), [
   body('hodRemarks').optional()
 ], async (req, res) => {
   try {
-    const requisition = await Requisition.findByPk(req.params.id);
+    const requisition = await Requisition.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['department']
+      }]
+    });
     
     if (!requisition) {
       return res.status(404).json({ success: false, message: 'Requisition not found' });
+    }
+
+    // Check if HOD can approve this requisition
+    if (req.user.role === 'hod') {
+      // HOD can only approve requests from their department
+      if (requisition.user.department !== req.user.department) {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'You can only approve requests from your department' 
+        });
+      }
     }
 
     requisition.status = 'approved';
@@ -142,8 +192,8 @@ router.put('/:id/approve', protect, authorize('admin'), upload.single('hodSignat
   }
 });
 
-// @route PUT /api/requisitions/:id/reject (Admin only)
-router.put('/:id/reject', protect, authorize('admin'), [
+// @route PUT /api/requisitions/:id/reject (HOD can reject department requests)
+router.put('/:id/reject', protect, authorize('admin', 'hod'), [
   body('hodRemarks').notEmpty().withMessage('Remarks are required for rejection')
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -152,10 +202,27 @@ router.put('/:id/reject', protect, authorize('admin'), [
   }
 
   try {
-    const requisition = await Requisition.findByPk(req.params.id);
+    const requisition = await Requisition.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['department']
+      }]
+    });
     
     if (!requisition) {
       return res.status(404).json({ success: false, message: 'Requisition not found' });
+    }
+
+    // Check if HOD can reject this requisition
+    if (req.user.role === 'hod') {
+      // HOD can only reject requests from their department
+      if (requisition.user.department !== req.user.department) {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'You can only reject requests from your department' 
+        });
+      }
     }
 
     requisition.status = 'rejected';
@@ -167,6 +234,41 @@ router.put('/:id/reject', protect, authorize('admin'), [
     res.json({
       success: true,
       data: requisition
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// @route GET /api/requisitions/:id/print (Employee print approved slip)
+router.get('/:id/print', protect, async (req, res) => {
+  try {
+    const requisition = await Requisition.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['id', 'name', 'email', 'employeeId', 'department']
+      }]
+    });
+    
+    if (!requisition) {
+      return res.status(404).json({ success: false, message: 'Requisition not found' });
+    }
+
+    // Check authorization
+    if (req.user.role === 'user' && requisition.createdBy !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized' });
+    }
+
+    if (requisition.status !== 'approved') {
+      return res.status(400).json({ success: false, message: 'Only approved requisitions can be printed' });
+    }
+
+    res.json({
+      success: true,
+      data: requisition,
+      printable: true
     });
   } catch (error) {
     console.error(error);
