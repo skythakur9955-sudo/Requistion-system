@@ -15,6 +15,7 @@ const generateToken = (user) => {
       role: user.role,
       name: user.name,
       employeeId: user.employeeId,
+      department : user.department,
       designation: user.designation
     }, 
     process.env.JWT_SECRET, 
@@ -31,7 +32,8 @@ router.post('/register', [
  
   body('email').isEmail().withMessage('Please enter valid email'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('role').optional().isIn(['user', 'admin', 'hod'])
+  body('role').optional().isIn(['user', 'admin', 'hod']),
+  body('department').notEmpty().withMessage('please enter department ')
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -39,7 +41,7 @@ router.post('/register', [
   }
 
   try {
-    const { name, employeeId,  email, password, role } = req.body;
+    const { name, employeeId,  email, password, role, department } = req.body;
 
     const userExists = await User.findOne({
       where: {
@@ -57,15 +59,15 @@ router.post('/register', [
     const user = await User.create({
       name,
       employeeId,
-      
       email,
       password,
-      role: role || 'user'
+      role: role,
+      department
     });
 
     const token = generateToken(user);
     
-    console.log('✅ User registered:', email, 'Role:', user.role);
+    console.log('✅ User registered:', email, 'Role:', user.role, department );
 
     res.status(201).json({
       success: true,
@@ -74,7 +76,7 @@ router.post('/register', [
         id: user.id,
         name: user.name,
         employeeId: user.employeeId,
-       
+       department : user.department,
         email: user.email,
         role: user.role
       }
@@ -132,15 +134,16 @@ router.post(
       console.log("✅ Login successful:", identifier, "Role:", user.role);
 
       res.json({
-        success: true,
-        token,
-        user: {
-          id: user.id,
-          name: user.name,
-          employeeId: user.employeeId,
-          designation: user.designation,
-          email: user.email,
-          role: user.role,
+       success: true,
+  token,
+  user: {
+    id: user.id,
+    name: user.name,
+    employeeId: user.employeeId,
+    designation: user.designation,
+    email: user.email,
+    role: user.role,
+     department: user.department, // ADD THIS LINE
         },
       });
     } catch (error) {

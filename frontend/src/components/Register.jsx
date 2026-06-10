@@ -9,7 +9,8 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user' // ✅ default role
+    role: 'user', // ✅ default role
+    department : ''
   });
 
   const [errors, setErrors] = useState({});
@@ -141,6 +142,17 @@ const Register = () => {
           />
           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
 
+          {/* department */}
+          <input
+            type="text"
+            name="department"
+            placeholder="Add department EX:-IT, HR..."
+            value={formData.department}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
+          {errors.department && <p className="text-red-500 text-sm">{errors.department}</p>}
+
           {/* 🔥 ROLE DROPDOWN */}
           <select
             name="role"
@@ -149,7 +161,7 @@ const Register = () => {
             className="w-full border p-2 rounded"
           >
             <option value="user">Employee</option>
-            {/* <option value="hod">HOD</option> */}
+            <option value="hod">HOD</option>
             <option value="admin">Admin</option>
           </select>
 

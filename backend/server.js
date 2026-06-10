@@ -15,6 +15,7 @@ dotenv.config();
 // Route files
 const authRoutes = require('./routes/authRoutes');
 const requisitionRoutes = require('./routes/requisitionRoutes');
+const adminRoutes = require('./routes/adminRoutes'); // ADD THIS LINE
 
 const app = express();
 
@@ -41,8 +42,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/requisitions', requisitionRoutes);
+<<<<<<< HEAD
 // Add this with other route mounts
 app.use('/api/password-reset', passwordResetRoutes);
+=======
+app.use('/api/admin', adminRoutes); // ADD THIS LINE
+>>>>>>> 2c94bd40cf1e0b428ea293dbb3e069df324e499f
 
 // Error handler
 app.use((err, req, res, next) => {

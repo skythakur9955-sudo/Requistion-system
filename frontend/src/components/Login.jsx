@@ -22,14 +22,14 @@ const Login = () => {
     if (user && !hasNavigated.current) {
       hasNavigated.current = true;
 
-      // console.log("🔄 User logged in, role:", user.role);
+     // console.log("🔄 User logged in, role:", user.role);
 
       // Role-based navigation
       if (user.role === "admin") {
         console.log("✅ Redirecting to ADMIN panel");
         navigate("/admin", { replace: true });
       } else {
-        //  console.log("✅ Redirecting to USER dashboard");
+      //  console.log("✅ Redirecting to USER dashboard");
         navigate("/dashboard", { replace: true });
       }
     }
