@@ -6,7 +6,8 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 
 import { generateRequisitionPDF } from "./PDFGenerator";
-import ntpc from "./img/ntpc.webp";
+import ntpc from "./img/nlogo.png";
+import nml from "./img/nml-logo.png";
 import { format } from "date-fns";
 import {
   LogOut,
@@ -286,7 +287,7 @@ const UserPanel = () => {
                 {/* NML Logo */}
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
                   <img
-                    src="/nml-logo.png"
+                    src={nml}
                     alt="NML"
                     className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
                   />

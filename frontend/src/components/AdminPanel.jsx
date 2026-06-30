@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import ntpc from "./img/ntpc.webp";
+import ntpc from "./img/nlogo.png";
 import { format } from "date-fns";
 
 import { generateRequisitionPDF } from "./PDFGenerator";
