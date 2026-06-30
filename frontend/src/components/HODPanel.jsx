@@ -103,10 +103,10 @@ const HODPanel = () => {
   };
 
   const handleApprove = async (id) => {
-    if (!signatureFile) {
-      toast.error("Please upload signature for approval");
-      return;
-    }
+    // if (!signatureFile) {
+    //   toast.error("Please upload signature for approval");
+    //   return;
+    // }
 
     setLoading(true);
     const formData = new FormData();
